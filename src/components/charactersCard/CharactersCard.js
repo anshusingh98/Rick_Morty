@@ -1,4 +1,4 @@
-import React from "react";
+import React,{useState,useEffect} from "react";
 
 import Card from '@mui/material/Card';
 import CardActions from '@mui/material/CardActions';
@@ -9,8 +9,8 @@ import {Button, CardMedia, IconButton} from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import { useSelector, useDispatch } from "react-redux";
-import FavReducer from "../../reducers/favourite.reducer";
-import { addToFavourite, removeFromFavourite } from "../../actions/actions";
+import { addToFav, addToFavourite, removeFromFav, removeFromFavourite } from "../../actions/actions";
+import "./charactersCard.css"
 
 
 
@@ -20,29 +20,52 @@ import { addToFavourite, removeFromFavourite } from "../../actions/actions";
 
 export default function CharactersCard({data}) {
   const dispatch = useDispatch();
-  // const favourite = useSelector((state) => state.favourite);
+  // // const favourite = useSelector((state) => state.favourite);
 
-  const favourite = useSelector(state=>state.FavReducer)
- 
-  const { id, name, image, status, species, gender, type } = data;
-  //favourite.favouriteCharacters.some((f) => f.id === id)
-
-  const [isFavourite, setIsFavourite] = React.useState(
-    false
-  );
- 
+   const Like = useSelector(state=>state.favChar.favouriteChars)
 
  
-  const handleDeselect = () => {
-    setIsFavourite(false);
-    dispatch(removeFromFavourite(id));
+   const { id, name, image, status, species, gender, type } = data;
+  // //favourite.favouriteCharacters.some((f) => f.id === id)
+
+  // const [isFavourite, setIsFavourite] = React.useState(
+  //   false
+  // );
+  // const [fav,setFav]=useState({})
+  
+
+
+  // useEffect(() => {
+  //   localStorage.setItem('fav', JSON.stringify(fav));
+  
+  // }, [fav]); 
+
+  // const handleDeselect = () => {
+  //    setIsFavourite(false);
+     
+  //  dispatch(removeFromFavourite(id))
+   
+  // };
+  
+  // const handleSelect = () => {
+  //   setIsFavourite(true);
+  //   dispatch(addToFavourite(data))
+  //   setFav(data)
+  
+  // };
+  const [like, setLike] = React.useState(Like.some((f) => f.id === id) || false);
+
+  
+
+  const add_to_Fav = () => {
+    dispatch(addToFav(data))
+    setLike(true);
   };
 
-  const handleSelect = () => {
-    setIsFavourite(true);
-      dispatch(addToFavourite(data));
+  const remove_fromFav = () => {
+    dispatch(removeFromFav(id));
+     setLike(false);
   };
-
 
 
   return (
@@ -62,16 +85,25 @@ export default function CharactersCard({data}) {
             {data.name}
             </Typography>
             {/*  */}
-            {isFavourite ? (
-              // onClick={handleDeselect}
-              <IconButton style={{ float: "right" }} onClick={handleDeselect}>
+            {/* {false ? (
+              // 
+              <IconButton style={{ float: "right" }} onClick={add_to_Fav}>
                 <FavoriteIcon color="error" />
               </IconButton>
             ) : (
-              <IconButton style={{ float: "right" }} onClick={handleSelect}>
+            <IconButton style={{ float: "right" }} onClick={remove_fromFav}>
                 <FavoriteBorderIcon />
               </IconButton>
-            )}
+            )} */}
+          <div className="fav">
+            <i
+              className={like ? "fa fa-heart like" : "fa fa-heart"}
+              onClick={() => {
+                like ? remove_fromFav() : add_to_Fav();
+              }}
+            ></i>
+          </div>
+        
 
           {/*  */}
             <Typography component="div" >

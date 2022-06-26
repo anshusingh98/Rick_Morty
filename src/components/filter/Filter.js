@@ -4,6 +4,7 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {FormControl, InputLabel, MenuItem, Select} from "@mui/material";
 import {generateRandomID} from "../../helpers/generate.random.id";
+import { border } from "@mui/system";
 
 export function Filter({filters, setFilterString, handleChangePage}) {
   const [values, setValues] = React.useState({})
@@ -41,14 +42,14 @@ export function Filter({filters, setFilterString, handleChangePage}) {
   return (
       <Box>
         <div hidden={filtersHidden}>
-          <Box
-               sx={{pt: 3, pl: 3, pr: 3, display: "flex", flexFlow: 'wrap', flexDirection: 'row'}}>
+          <Box 
+               sx={{pt: 3, pl: 3, pr: 3, display: "flex", flexFlow: 'wrap', flexDirection: 'row' ,justifyContent:'center'}}>
           {
             Object.entries(filters).map(([key, val]) => Array.isArray(val) ?
                 <FormControl
                     key={generateRandomID(10)}
-                    sx={{width: 200, m: 1 }}>
-                  <InputLabel id="demo-simple-select-label">{key}</InputLabel>
+                    sx={{width: 200, m: 1 ,borderColor:'blueviolet'}}>
+                  <InputLabel id="demo-simple-select-label" >{key}</InputLabel>
                   <Select
                       labelId="demo-simple-select-label"
                       id="demo-simple-select"
@@ -65,7 +66,7 @@ export function Filter({filters, setFilterString, handleChangePage}) {
                 </FormControl>
                 :
                 <TextField id="outlined-basic"
-                           sx={{width: 200, m: 1}}
+                           sx={{width: 200, m: 1 ,border:'secondary'}}
                            key={key}
                            label={key}
                            variant="outlined"
@@ -77,10 +78,10 @@ export function Filter({filters, setFilterString, handleChangePage}) {
           }
           </Box>
         </div>
-        <Box sx={{p: 3, display: "flex", flexDirection: 'row'}}>
-          <Button onClick={handleOnHide} sx={{ mr: 3 }}>Hide</Button>
-          <Button onClick={handleOnClear} sx={{ mr: 3 }}>Clear</Button>
-          <Button onClick={handleOnApply} variant="outlined">Apply filter</Button>
+        <Box sx={{p: 3, display: "flex", flexDirection: 'row' ,justifyContent:'center' }}>
+          <Button onClick={handleOnHide} color='secondary' sx={{ mr: 3 }}>Hide</Button>
+          <Button onClick={handleOnClear} color='secondary'  sx={{ mr: 3 }}>Clear</Button>
+          <Button onClick={handleOnApply} color='secondary'  variant="outlined">Apply filter</Button>
         </Box>
       </Box>
   );

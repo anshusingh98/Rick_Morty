@@ -6,7 +6,7 @@ import {Filter} from "../filter/Filter";
 import CharactersCard from "../charactersCard/CharactersCard";
  import { useDispatch, useSelector } from "react-redux";
  import { charactersAPI } from "../../requests/requests";
-import Container from "../favouriteCard/Container";
+import FavCard from "../favCard/FavCard";
 //{value, index, dispatch, content, info, error, contentType, filters, API}
 function TabPanel({value, index, contentType}) {
 
@@ -46,8 +46,10 @@ function TabPanel({value, index, contentType}) {
     return null;
 
   return (
+    (value===0 && contentType === 'characters') ?
       <div hidden={value !== index} style={{backgroundColor:"#e8eaf7"}}>
-        <Box style={{}}>
+       
+        <Box style={{alignItems:'center'}}>
           <Filter filters={filters} setFilterString={setFilterString} handleChangePage={handleChangePage}/>
         </Box>
         <Box sx={{p: 1, pr: 5, display: 'flex', flexFlow: 'wrap', justifyContent: 'end'}}>
@@ -63,31 +65,38 @@ function TabPanel({value, index, contentType}) {
                       onChange={handleChangePage}
                       showFirstButton
                       color="secondary"
+                      style={{paddingRight:350}}
                       showLastButton/>
         </Box>
         <Box  sx={{p: 3, display: "flex", flexFlow: 'wrap', justifyContent: 'space-around'}}>
-          {
+
+        {
             (!error) ?
                 content.map(res =>
-                  (contentType === 'characters')?
-                        <CharactersCard key={res.id} data={res} />:
-                        <Container />
-                        
+                   
+                        <CharactersCard key={res.id} data={res} /> 
                       
                 ) :
                 <Box>There is nothing here</Box>
           }
+        
         </Box>
+        
 
         <Box className="box" sx={{p: 5, pb: 10, display: 'flex', justifyContent: 'end'}}>
           <Pagination page={(!error)? page : 1}
                       count={(!error)? info.pages : 1}
                       onChange={handleChangePage}
+                      style={{paddingRight:350}}
                       color="secondary"
                       showFirstButton
                       showLastButton/>
         </Box>
-      </div>
+        </div>: 
+              
+                 <Box  sx={{p: 1, display: "flex",flexFlow: 'wrap',  justifyContent: 'space-around' }}><FavCard /></Box>
+                
+     
   );
 }
 export default TabPanel
